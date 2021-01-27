@@ -1,17 +1,30 @@
 @extends('layouts.default')
-@section('title', '所有用户')
+@section('title', $user->name)
 
 @section('content')
-<div class="offset-md-2 col-md-8">
-  <h2 class="mb-4 text-center">所有用户</h2>
-  <div class="list-group list-group-flush">
-    @foreach ($users as $user)
-       @include('users._user')
-    @endforeach
-  </div>
-
-  <div class="mt-3">
-    {!! $users->render() !!}
+<div class="row">
+  <div class="offset-md-2 col-md-8">
+    <section class="user_info">
+      @include('shared._user_info', ['user' => $user])
+    </section>
+    <section class="stats mt-2">
+      @include('shared._stats', ['user' => $user])
+    </section>
+    <hr>
+    <section class="status">
+      @if ($statuses->count() > 0)
+        <ul class="list-unstyled">
+          @foreach ($statuses as $status)
+            @include('statuses._status')
+          @endforeach
+        </ul>
+        <div class="mt-5">
+          {!! $statuses->render() !!}
+        </div>
+      @else
+        <p>没有数据！</p>
+      @endif
+    </section>
   </div>
 </div>
 @stop

@@ -14,8 +14,18 @@ class PasswordController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('guest', [
+            'only' => ['create']
+        ]);
+
+        // 限流 10 分钟十次
         $this->middleware('throttle:3,10', [
             'only' => ['showLinkRequestForm']
+        ]);
+
+        // 限流 一个小时内只能提交 10 次请求；
+        $this->middleware('throttle:10,60', [
+            'only' => ['store']
         ]);
     }
 
